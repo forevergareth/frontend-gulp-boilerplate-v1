@@ -2,7 +2,7 @@ const gulp = require('gulp');
 const uglify = require('gulp-uglify')
 const livereload = require('gulp-livereload')
 const concat = require('gulp-concat')
-const minifyCss = require('gulp-minify-css')
+//const minifyCss = require('gulp-minify-css')
 const autoprefixer = require('gulp-autoprefixer')
 const plumber = require('gulp-plumber')
 const sourcemaps = require('gulp-sourcemaps')
@@ -28,7 +28,7 @@ var paths = {
     css: './src/css/**/*.css',
     sass: './src/sass/main.sass',
     js: './src/js/**/*.js',
-    img: './src/img/**/*.{png,jpeg,jpg,svg,gif}}'
+    img: './src/img/**/*.{png,jpeg,jpg,svg,gif}'
   }
 
 }
@@ -42,11 +42,11 @@ gulp.task('styles', function () {
       console.log(err)
       this.emit('end')
     }))  
-    .pipe(autoprefixer())  
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'compressed'
     }))
+    .pipe(autoprefixer())  
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.dist.css))
     .pipe(livereload());
@@ -76,7 +76,7 @@ gulp.task('scripts', function () {
 
 gulp.task('images', function () {
   console.log('Building Images.......')
-  return gulp.src(IMAGES_PATH)
+  return gulp.src(paths.src.img)
 		.pipe(imagemin(
 			[
 				imagemin.gifsicle(),
@@ -87,7 +87,7 @@ gulp.task('images', function () {
 				imageminJpegRecompress()
 			]
 		))
-		.pipe(gulp.dest());
+		.pipe(gulp.dest(paths.dist.img));
 })
 
 gulp.task('watch', ['default'], function () {
